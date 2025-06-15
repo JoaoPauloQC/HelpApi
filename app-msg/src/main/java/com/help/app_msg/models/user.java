@@ -5,9 +5,9 @@ public class user {
     private String nome;
     private int idade;
     private int turma;
-    private int prontuario;
+    private String prontuario;
 
-    public user(String nome, int idade, int turma, int prontuario){
+    public user(String nome, int idade, int turma, String prontuario){
         this.nome = nome;
         this.prontuario = prontuario;
         this.turma = turma;
@@ -18,7 +18,7 @@ public class user {
         return idade;
     }
 
-    public int getProntuario() {
+    public String getProntuario() {
         return prontuario;
     }
 
