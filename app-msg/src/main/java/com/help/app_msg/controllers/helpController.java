@@ -1,6 +1,7 @@
 package com.help.app_msg.controllers;
 
 import com.help.app_msg.dtos.helpMsgRequest;
+import com.help.app_msg.dtos.helpMsgRequestId;
 import com.help.app_msg.models.helpMsg;
 import com.help.app_msg.models.user;
 import com.help.app_msg.services.helpService;
@@ -46,5 +47,18 @@ public class helpController {
         }
         return ResponseEntity.unprocessableEntity().build();
     }
+
+    @GetMapping("/getone")
+    public ResponseEntity<helpMsg> gettingbyid(@RequestBody helpMsgRequestId helpMsgRequestId){
+        if(helpService.gettingbyid(helpMsgRequestId.getId()).isPresent()){
+
+            return ResponseEntity.ok(helpService.gettingbyid(helpMsgRequestId.getId()).get());
+        }
+        else{
+            return ResponseEntity.unprocessableEntity().build();
+        }
+
+    }
+
 
 }
