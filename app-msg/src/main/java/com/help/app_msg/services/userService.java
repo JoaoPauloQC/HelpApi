@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class userService {
@@ -20,6 +22,14 @@ public class userService {
         } else {
             return "Não foi possivel adicionar";
         }
+    }
+
+    public Optional<user> getbyid(String id){
+        System.out.println("to procurando");
+        Optional<user> selected_user = users.stream()
+                .filter(u -> Objects.equals(u.getProntuario(), id))
+                .findFirst();
+        return selected_user;
     }
 
     public List<user> getusers(){

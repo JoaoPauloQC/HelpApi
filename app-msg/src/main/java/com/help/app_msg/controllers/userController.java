@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
@@ -36,6 +37,15 @@ public class userController {
     public ResponseEntity<List> getAll(){
 
         return ResponseEntity.ok(userservice.getusers());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<user> gettingbyid(@PathVariable String id){
+        System.out.println("hi");
+        Optional<user> ouser = userservice.getbyid(id);
+        user user = ouser.get();
+        System.out.println("hi");
+        return ResponseEntity.ok(user);
     }
 
 }

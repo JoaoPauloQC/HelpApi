@@ -8,10 +8,17 @@ public class helpMsg {
 
     private String status;
 
-    public helpMsg(int id, String name, String status){
+    private user user;
+
+    public helpMsg(int id, String name, String status , user user){
         this.id = id;
         this.name = name;
         this.status = status;
+        this.user = user;
+    }
+
+    public user getUser() {
+        return user;
     }
 
     public int getId() {

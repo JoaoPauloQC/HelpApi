@@ -2,11 +2,14 @@ package com.help.app_msg.controllers;
 
 import com.help.app_msg.dtos.helpMsgRequest;
 import com.help.app_msg.models.helpMsg;
+import com.help.app_msg.models.user;
 import com.help.app_msg.services.helpService;
+import com.help.app_msg.services.userService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/help")
@@ -14,8 +17,10 @@ public class helpController {
 
     private helpService helpService;
 
-    private helpController(helpService helpService){
+    private userService userservice;
+    private helpController(helpService helpService , userService userService){
         this.helpService = helpService;
+        this.userservice = userService;
     }
 
     @GetMapping()
@@ -26,13 +31,20 @@ public class helpController {
 
     @PostMapping()
     public ResponseEntity<Void> newHelp(@RequestBody helpMsgRequest helpMsgRequest){
-        if(helpService.getHelpmsgs().isEmpty()) {
-            helpService.addHelp(new helpMsg(1, helpMsgRequest.getName(), "aberto"));
+
+        Optional<user> checkuser = userservice.getbyid(helpMsgRequest.getProntuario());
+
+        if (checkuser.isPresent()) {
+            user user = checkuser.get();
+            if (helpService.getHelpmsgs().isEmpty()) {
+
+                helpService.addHelp(new helpMsg(1, helpMsgRequest.getName(), "aberto", user  ));
+            } else {
+                helpService.addHelp(new helpMsg(helpService.getHelpmsgs().size() + 1, helpMsgRequest.getName(), "aberto" , user));
+            }
+            return ResponseEntity.ok().build();
         }
-        else{
-            helpService.addHelp(new helpMsg(helpService.getHelpmsgs().size()+1, helpMsgRequest.getName(), "aberto"));
-        }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.unprocessableEntity().build();
     }
 
 }
