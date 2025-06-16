@@ -1,6 +1,7 @@
 package com.help.app_msg.controllers;
 
 
+import com.help.app_msg.dtos.loginRequest;
 import com.help.app_msg.dtos.userRequest;
 import com.help.app_msg.models.user;
 import com.help.app_msg.services.userService;
@@ -46,6 +47,19 @@ public class userController {
         user user = ouser.get();
         System.out.println("hi");
         return ResponseEntity.ok(user);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<user> login(@RequestBody loginRequest loginRequest) {
+        List<user> login = userservice.login(loginRequest.getNome(),loginRequest.getProntuario());
+        if (login.size() == 1){
+            user userlogged = login.get(0);
+            return ResponseEntity.ok(userlogged);
+        }
+        else{
+            System.out.println(login.size());
+            return ResponseEntity.unprocessableEntity().build();
+        }
     }
 
 }
